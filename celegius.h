@@ -63,6 +63,12 @@
   } while (0)
 
 DA_DEFINE(Cmd, const char *);
+#define cmd_init da_init
+#define cmd_free da_free
+#define cmd_append(cmd, ...)                                                   \
+  da_append_many(cmd, ((const char *[]){__VA_ARGS__}),                         \
+                 (sizeof((const char *[]){__VA_ARGS__})) /                     \
+                     sizeof(const char *))
 
 #endif // !CELEGIUS_H__
 

@@ -4,18 +4,23 @@
 #define CELAGIUS_IMPL
 #include "celegius.h"
 
-DA_DEFINE(String_Builder, char);
-
 int main(void) {
 
-  String_Builder sb = {0};
-  da_init(&sb);
+  Cmd cmd = {0};
+  cmd_init(&cmd);
 
-  da_append(&sb, 'H');
-  da_append_many(&sb, "ello World", 10);
+  cmd_append(&cmd, "cc");
+  cmd_append(&cmd, "-Wall"
+                   "-Wextra");
+  cmd_append(&cmd, "celegius.c");
+  cmd_append(&cmd, "-o", "build");
 
-  printf("%s\n", sb.items);
-  da_free(&sb);
+  for (size_t i = 0; i < cmd.count; i++) {
+    printf("%s ", cmd.items[i]);
+  }
+  printf("\n");
+
+  cmd_free(&cmd);
 
   return EXIT_SUCCESS;
 }
