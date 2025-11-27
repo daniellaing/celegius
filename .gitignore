@@ -1,0 +1,9 @@
+build
+*.o
+
+# direnv
+.direnv/
+.envrc
+
+# Nix
+result*
