@@ -54,6 +54,9 @@
     (da)->count += num;                                                        \
   } while (0)
 
+#define da_foreach(type, item, da)                                             \
+  for (type *item = (da)->items; item < (da)->items + (da)->count; item++)
+
 #define da_free(da)                                                            \
   do {                                                                         \
     free((da)->items);                                                         \
@@ -62,6 +65,8 @@
     (da)->capacity = 0;                                                        \
   } while (0)
 
+DA_DEFINE(String_Builder, char);
+
 DA_DEFINE(Cmd, const char *);
 #define cmd_init da_init
 #define cmd_free da_free
@@ -69,6 +74,15 @@ DA_DEFINE(Cmd, const char *);
   da_append_many(cmd, ((const char *[]){__VA_ARGS__}),                         \
                  (sizeof((const char *[]){__VA_ARGS__})) /                     \
                      sizeof(const char *))
+#define cmd_display(cmd, sb)                                                   \
+  do {                                                                         \
+    da_foreach(const char *, arg, cmd) {                                       \
+      size_t len = strlen(*arg);                                               \
+      da_append_many(sb, *arg, len);                                           \
+      da_append(sb, ' ');                                                 \
+    }                                                                          \
+    (sb)->items[--((sb)->count)] = '\0';                                         \
+  } while (0)
 
 #endif // !CELEGIUS_H__
 
