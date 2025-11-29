@@ -1,9 +1,8 @@
-#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 
 #define CELEGIUS_IMPL
+#define CEL_STRIP_PREFIX
 #include "celegius.h"
 
 int main(int argc, char **argv) {
