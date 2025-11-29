@@ -148,6 +148,7 @@ bool cmd_wait(pid_t pid) {
       int exit_status = WEXITSTATUS(status);
       if (exit_status != 0) {
         fprintf(stderr, "[ERROR] Command exitied with code %d\n", exit_status);
+        return false;
       }
       break;
     }
