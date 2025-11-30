@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
   }
   printf("\n");
 
-  AUTO_REBUILD(argc, argv);
+  AUTO_REBUILD_WITH(argc, argv, "celegius.h");
 
   printf("---------------------\n");
 

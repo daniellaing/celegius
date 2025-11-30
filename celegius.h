@@ -107,12 +107,13 @@ bool cel_cmd_run_sync(Cmd *cmd);
 bool cel_cmd_wait(pid_t pid);
 int cel_needs_rebuild(const char *const bin_path, ...);
 
-#define CEL_AUTO_REBUILD(argc, argv)                                           \
+#define CEL_AUTO_REBUILD_WITH(argc, argv, ...)                                 \
   do {                                                                         \
     const char *const binary_name = cel_shift_arr(argv, argc);                 \
     const char *const source_name = __FILE__;                                  \
                                                                                \
-    int rebuild = cel_needs_rebuild(binary_name, source_name, NULL);           \
+    int rebuild =                                                              \
+        cel_needs_rebuild(binary_name, source_name, __VA_ARGS__, NULL);        \
     if (rebuild < 0)                                                           \
       exit(EXIT_FAILURE);                                                      \
                                                                                \
@@ -146,9 +147,10 @@ int cel_needs_rebuild(const char *const bin_path, ...);
     }                                                                          \
   } while (0)
 
+#define CEL_AUTO_REBUILD(argc, argv) CEL_AUTO_REBUILD_WITH(argc, argv, NULL);
+
 #endif // !CELEGIUS_H__
 
-#define CELEGIUS_IMPL
 #ifdef CELEGIUS_IMPL
 
 pid_t cel_cmd_run_async(Cmd *cmd) {
@@ -271,6 +273,7 @@ int cel_needs_rebuild(const char *const bin_path, ...) {
 #define cmd_wait cel_cmd_wait
 #define needs_rebuild cel_needs_rebuild
 #define AUTO_REBUILD CEL_AUTO_REBUILD
+#define AUTO_REBUILD_WITH CEL_AUTO_REBUILD_WITH
 
 #endif // CEL_STRIP_PREFIX
 
